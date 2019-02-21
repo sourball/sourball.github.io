@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<body>
+		<h1>Band</h1>
 		<script>
 			var compTime = 15;
 			var composing = false;
@@ -17,16 +18,20 @@
 				document.getElementById("buttonson").innerHTML = cDown;
 				var id = setInterval(function(){countTry();}, 1000);
 				function countTry() {
+					
 					console.log("yes");
+					
 					if (cDown == 0){
 						document.getElementById("buttonson").innerHTML = "Click me";
 						document.getElementById("buttonson").removeAttribute("disabled");
 						composedSongs += 1;
 						experience += (9 + ((Math.floor(Math.random() * Math.floor(50))-25)/10));
+						if (experience > expBrackets[currentLvl]) {experience = 0; currentLvl++;}
 						document.getElementById("counter").innerHTML = "Songs composed: " + composedSongs.toString();
 						document.getElementById("exp").innerHTML = "Composing level: " + currentLvl.toString() + " (" + experience.toString() + "/" + expBrackets[currentLvl].toString() + " exp to next level)";
 						clearInterval(id);
-					} else{
+					} 
+					else{
 						cDown += -1;
 						document.getElementById("buttonson").innerHTML = cDown; 
 						console.log(cDown);
