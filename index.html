@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html>
-<body>
-<script>
-var compTime = 15;
-var composing = false;
-var d = new Date();
-var seconds = d.getSeconds();
-
-function poseFunction() {
-	document.getElementById("buttonson").setAttribute("disabled","");
-    var cDown = 15;
-    var id = setInterval(countTry(), 1000);
-    function countTry() {
-		if (cDown == 0){
-        	document.getElementById("buttonson").innerHTML = "Click me";
-    	    document.getElementById("buttonson").removeAttribute("disabled");
-            composing = false;
-			clearInterval(id);
-   		} else{
-   			document.getElementById("buttonson").innerHTML = cDown; 
-			console.log(cDown);
-			cDown += -1;
-			return;
-    	}
-    }
-}
-</script>
-<p id="countdown">Click the button! (15 second cooldown)</p>
-<button onclick="poseFunction()" id="buttonson">Click me</button>
-</body>
+	<body>
+		<script>
+			var compTime = 15;
+			var composing = false;
+			var d = new Date();
+			var seconds = d.getSeconds();
+			
+			function poseFunction() {
+				document.getElementById("buttonson").setAttribute("disabled","");
+				var cDown = 15;
+				document.getElementById("buttonson").innerHTML = cDown;
+				var id = setInterval(function(){countTry();}, 1000);
+				function countTry() {
+					console.log("yes");
+					if (cDown == 0){
+						document.getElementById("buttonson").innerHTML = "Click me";
+						document.getElementById("buttonson").removeAttribute("disabled");
+						clearInterval(id);
+					} else{
+						cDown += -1;
+						document.getElementById("buttonson").innerHTML = cDown; 
+						console.log(cDown);
+					}
+				}
+			}
+		</script>
+		<p id="countdown">Click the button! (15 second cooldown)</p>
+		<button onclick="poseFunction()" id="buttonson">Click me</button>
+	</body>
 </html>
