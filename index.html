@@ -26,7 +26,7 @@
 						document.getElementById("buttonson").removeAttribute("disabled");
 						composedSongs += 1;
 						experience += (9 + ((Math.floor(Math.random() * Math.floor(50))-25)/10));
-						if (experience > expBrackets[currentLvl]) {experience = 0; currentLvl++;}
+						if (experience > expBrackets[currentLvl]) {experience -= expBrackets[currentLvl]; currentLvl++;}
 						document.getElementById("counter").innerHTML = "Songs composed: " + composedSongs.toString();
 						document.getElementById("exp").innerHTML = "Composing level: " + currentLvl.toString() + " (" + experience.toFixed() + "/" + expBrackets[currentLvl].toString() + " exp to next level)";
 						clearInterval(id);
