@@ -1,7 +1,28 @@
 <!DOCTYPE html>
 <html>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+<script>
+var compTime = 15;
+var composing = false;
+var d = new Date();
+var seconds = d.getSeconds();
+var cDown = compTime;
+
+function poseFunction() {
+	document.getElementById("buttonson").setAttribute("disabled","");
+	setInterval(countTry(), 1000);
+}
+
+function countTry() {
+	if (cDown == 0){
+    	document.getElementById("buttonson").innerHTML = "Click me";
+    } else{
+    	document.getElementById("buttonson").innerHTML = cDown;
+        cDown --;
+    }
+}
+</script>
+<p id="countdown">Click the button! (15 second cooldown)</p>
+<button onclick="poseFunction()" id="buttonson">Click me</button>
 </body>
 </html>
