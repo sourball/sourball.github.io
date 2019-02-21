@@ -6,19 +6,23 @@ var compTime = 15;
 var composing = false;
 var d = new Date();
 var seconds = d.getSeconds();
-var cDown = compTime;
 
 function poseFunction() {
 	document.getElementById("buttonson").setAttribute("disabled","");
-	setInterval(countTry(), 1000);
-}
-
-function countTry() {
-	if (cDown == 0){
-    	document.getElementById("buttonson").innerHTML = "Click me";
-    } else{
-    	document.getElementById("buttonson").innerHTML = cDown;
-        cDown --;
+    var cDown = 15;
+    composing = true;
+    while(composing){
+    	var id = setInterval(countTry(), 1000);
+    }
+    function countTry() {
+		if (cDown == 0){
+        	document.getElementById("buttonson").innerHTML = "Click me";
+    	    document.getElementById("buttonson").removeAttribute("disabled");
+            composing = false;
+  	        clearInterval(id);
+   		} else{
+   			document.getElementById("buttonson").innerHTML = cDown;    		    cDown += -1;
+    	}
     }
 }
 </script>
