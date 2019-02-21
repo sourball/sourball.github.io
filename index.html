@@ -10,20 +10,18 @@ var seconds = d.getSeconds();
 function poseFunction() {
 	document.getElementById("buttonson").setAttribute("disabled","");
     var cDown = 15;
-    composing = true;
-    while(composing == true){
-    	var id = setInterval(countTry(), 1000);
-    }
+    var id = setInterval(countTry(), 1000);
     function countTry() {
 		if (cDown == 0){
         	document.getElementById("buttonson").innerHTML = "Click me";
     	    document.getElementById("buttonson").removeAttribute("disabled");
             composing = false;
-  	        clearInterval(id);
+			clearInterval(id);
    		} else{
    			document.getElementById("buttonson").innerHTML = cDown; 
 			console.log(cDown);
 			cDown += -1;
+			return;
     	}
     }
 }
