@@ -7,6 +7,9 @@
 			var d = new Date();
 			var seconds = d.getSeconds();
 			var composedSongs = 0;
+			var experience = 0;
+			var expBrackets = [100, 150, 225, 450, 600];
+			var currentLvl = 0;
 			
 			function poseFunction() {
 				document.getElementById("buttonson").setAttribute("disabled","");
@@ -19,7 +22,9 @@
 						document.getElementById("buttonson").innerHTML = "Click me";
 						document.getElementById("buttonson").removeAttribute("disabled");
 						composedSongs += 1;
+						experience += (9 + ((Math.floor(Math.random() * Math.floor(50))-25)/10));
 						document.getElementById("counter").innerHTML = "Songs composed: " + composedSongs.toString();
+						document.getElementById("exp").innerHTML = "Composing level: " + currentLvl.toString() + " (" + experience.toString() + "/" + expBrackets[currentLvl].toString() + " exp to next level)";
 						clearInterval(id);
 					} else{
 						cDown += -1;
@@ -32,5 +37,6 @@
 		<p id="countdown">Click the button to compose a song! (15 second cooldown)</p>
 		<button onclick="poseFunction()" id="buttonson">Click me</button>
 		<p id="counter">Songs composed: 0</p>
+		<p id="exp">Composing level: 1 (0/100 exp to next level)</p>
 	</body>
 </html>
