@@ -1,5 +1,5 @@
 var game = {
-	compTime: 2,
+	compTime: 10,
 	composing: false,
 	date: new Date(),
 	compositions: 0,
@@ -10,7 +10,8 @@ var game = {
 	datesList: [],
 	tblBool: false,
 	albumData_lengths: [],
-	albumData_names: []
+	albumData_names: [],
+	debug: fales
 }
 
 //declare albums table
@@ -50,6 +51,9 @@ function element(id, action, data, subdata) {
 function poseFunction() {
 	element("buttonson", "set_a", "disabled", "");
 	var cDown = game.compTime;
+	if (game.debug == true)	{
+		cDown = 1;
+	}
 	element("buttonson", "innerHTML", cDown);
 	var id = setInterval(function(){countTry();}, 1000);
 	function countTry() {					
@@ -75,7 +79,7 @@ function poseFunction() {
 }
 function createAlbum() {
 	game.albumName = prompt("Album name: ");
-	game.albumsList.push(albumName);
+	game.albumsList.push(game.albumName);
 	game.datesList.push("not yet released");
 	
 	//if albums table doesn't show, display it
