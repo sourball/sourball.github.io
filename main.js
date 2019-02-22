@@ -26,6 +26,8 @@ cell2.innerHTML = "<b>Release date</b>";
 cell2.setAttribute("class", "initrows");
 tblRow.setAttribute("class", "init");
 
+var upDating = setInterval(function(){updateValues();}, 4000);
+
 function element(id, action, data, subdata) {
 	switch(action){
 		case "innerHTML":
@@ -56,8 +58,7 @@ function poseFunction() {
 			
 			if (experience > expBrackets[currentLvl]) {experience -= expBrackets[currentLvl]; currentLvl++;}
 			
-			element("counter", "innerHTML", "Songs composed: " + compositions.toString());
-			element("exp", "innerHTML", "Composing level: " + currentLvl.toString() + " (" + experience.toFixed(1) + "/" + expBrackets[currentLvl].toString() + " exp to next level)");
+			updateValues();
 			clearInterval(id);
 			
 			if (compositions >= 10) { element("create","rm_a","disabled"); }
@@ -85,4 +86,12 @@ function createAlbum() {
 	var dateCell = albumRow.insertCell(1);
 	titleCell.innerHTML = albumName[0];
 	dateCell.innerHTML = datesList[0];
+}
+
+function updateValues(){
+	var expElement = document.getElementById("exp");
+	var composedElement = document.getElementById("counter");
+	expElement.innerHTML = "Composing level: " + currentLvl.toString() + " (" + 
+	experience.toFixed(1) + "/" + expBrackets[currentLvl].toString() + " exp to next level)";
+	composedElement.innerHTML = "Songs composed: " + compositions.toString();
 }

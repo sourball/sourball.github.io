@@ -18,3 +18,8 @@ table {
 .leftalign {
 	text-align: left;
 }
+
+.column{
+	float: left;
+	width: 50%;
+}
