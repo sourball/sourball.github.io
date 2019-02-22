@@ -11,7 +11,7 @@
 			var experience = 0;
 			var expBrackets = [100, 150, 225, 450, 600];
 			var currentLvl = 0;
-			var albums;
+			var albumsList = [];
 			
 			function element(id, action, data, subdata) {
 				switch(action){
@@ -30,23 +30,20 @@
 			}
 			
 			function poseFunction() {
-				document.getElementById("buttonson").setAttribute("disabled","");
+				element("buttonson", "set_a", "disabled", "");
 				var cDown = 10;
-				document.getElementById("buttonson").innerHTML = cDown;
+				element("buttonson", "innerHTML", cDown);
 				var id = setInterval(function(){countTry();}, 1000);
-				function countTry() {
-					
-					console.log("yes");
-					
+				function countTry() {					
 					if (cDown == 0){
-						document.getElementById("buttonson").innerHTML = "Click me";
-						document.getElementById("buttonson").removeAttribute("disabled");
+						element("buttonson", "innerHTML", "Click me");
+						element("buttonson", "rm_a", "disabled");
 						composedSongs += 1;
 						experience += (9 + ((Math.floor(Math.random() * Math.floor(50))-25)/10));
 						
 						if (experience > expBrackets[currentLvl]) {experience -= expBrackets[currentLvl]; currentLvl++;}
 						
-						document.getElementById("counter").innerHTML = "Songs composed: " + composedSongs.toString();
+						element("counter", "innerHTML", "Songs composed: " + composedSongs.toString());
 						element("exp", "innerHTML", "Composing level: " + currentLvl.toString() + " (" + experience.toFixed(1) + "/" + expBrackets[currentLvl].toString() + " exp to next level)");
 						clearInterval(id);
 						
@@ -55,19 +52,21 @@
 					else{
 						cDown += -1;
 						document.getElementById("buttonson").innerHTML = cDown; 
-						console.log(cDown);
 					}
 				}
 				
 			}
-			function releaseAlbum() {
-				prompt("Album name: ");
+			function createAlbum() {
+				albumName = prompt("Album name: ");
+				albumsList.push(albumName);
+				var tbl = document.createElement("TABLE");
+				tbl.setAttribute("id", "albums");
 			}
 		</script>
 		<p id="countdown">Click the button to compose a song! (10 second cooldown)</p>
 		<button onclick="poseFunction()" id="buttonson">Click me</button>
 		<br><br>
-		<button onclick="releaseAlbum()" id="release" disabled="">Once you've got 10 songs, you may release an album</button>
+		<button onclick="createAlbum()" id="create" disabled="">Once you've got 10 songs, you may release an album</button>
 		<p id="counter">Songs composed: 0</p>
 		<p id="exp">Composing level: 0 (0/100 exp to next level)</p>
 		<table id="albums">
