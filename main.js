@@ -15,6 +15,8 @@ var game = {
 	debug: false
 }
 
+var isTableShowing = false;
+
 //declare albums table
 var tbl = document.createElement("TABLE");
 tbl.setAttribute("id", "albums");
@@ -134,6 +136,7 @@ function rebuildTable(){
 	titleCell.innerHTML = game.albumsList[game.currentAlbum];
 	dateCell.innerHTML = game.datesList[game.currentAlbum];
 	game.currentAlbum += 1;
+	isTableShowing = true;
 }
 
 function save() {
@@ -148,7 +151,7 @@ function load() {
 	game = JSON.parse(localStorage.getItem('Save'));
 	updateValues();
 	game.currentAlbum = 0;
-	game.albumsList.forEach(rebuildTable);
+	if(isTableShowing == false){game.albumsList.forEach(rebuildTable);}
 	if(game.tblBool){document.getElementById("col1").appendChild(tbl);};
 	
 	var loadButton = document.getElementById("loadBtn");
