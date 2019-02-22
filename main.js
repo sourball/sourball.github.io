@@ -9,6 +9,8 @@ var currentLvl = 0;
 var albumsList = [];
 var datesList = [];
 var tblBool = false;
+var albumData_lengths = [];
+var albumData_names = [];
 
 //declare albums table
 var tbl = document.createElement("TABLE");
@@ -77,15 +79,22 @@ function createAlbum() {
 	
 	//if albums table doesn't show, display it
 	if(!tblBool){
-		document.body.appendChild(tbl);
+		document.getElementById("col1").appendChild(tbl);
 		
 		tblBool = true;
 	}
 	var albumRow = tbl.insertRow();
 	var titleCell = albumRow.insertCell(0);
 	var dateCell = albumRow.insertCell(1);
-	titleCell.innerHTML = albumName[0];
+	titleCell.innerHTML = albumsList[0];
 	dateCell.innerHTML = datesList[0];
+}
+
+function albumPrepare(){
+	var albumInput = document.getElementById("col2");
+	
+	albumData_names.push();
+	albumData_lengths.push();
 }
 
 function updateValues(){

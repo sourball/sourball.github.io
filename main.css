@@ -4,7 +4,6 @@ body {
 
 table {
 	border-collapse: collapse;
-	width: 25%;
 }
 
 .init {
@@ -13,6 +12,10 @@ table {
 
 .initrows {
 	padding-left: 5px;
+}
+
+.datarows {
+	
 }
 
 .leftalign {
