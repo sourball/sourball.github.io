@@ -178,6 +178,6 @@ function reset(){
 		debug: false
 	}
 	updateValues();
-	document.getElementById("col1").removeChild(tbl);
+	if(isTableShowing == true){document.getElementById("col1").removeChild(tbl);}
 	game.tblBool = false;
 }
