@@ -159,3 +159,25 @@ function load() {
 	loadButton.setAttribute("disabled","");
 	setTimeout(function(){loadButton.innerHTML = "Load"; loadButton.removeAttribute("disabled");}, 1000);
 }
+
+function reset(){
+	game = {
+		compTime: 10,
+		composing: false,
+		date: new Date(),
+		compositions: 0,
+		experience: 0,
+		expBrackets: [100, 150, 225, 450, 600],
+		currentLvl: 0,
+		currentAlbum: 0,
+		albumsList: [],
+		datesList: [],
+		tblBool: false,
+		albumData_lengths: [],
+		albumData_names: [],
+		debug: false
+	}
+	updateValues();
+	document.getElementById("col1").removeChild(tbl);
+	game.tblBool = false;
+}
