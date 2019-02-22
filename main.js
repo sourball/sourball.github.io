@@ -9,6 +9,8 @@ var currentLvl = 0;
 var albumsList = [];
 var datesList = [];
 var tblBool = false;
+var albumData_lengths = [];
+var albumData_names = [];
 
 //declare albums table
 var tbl = document.createElement("TABLE");
@@ -25,6 +27,8 @@ var cell2 = tblRow.insertCell(1);
 cell2.innerHTML = "<b>Release date</b>";
 cell2.setAttribute("class", "initrows");
 tblRow.setAttribute("class", "init");
+
+var upDating = setInterval(function(){updateValues();}, 4000);
 
 function element(id, action, data, subdata) {
 	switch(action){
@@ -56,8 +60,7 @@ function poseFunction() {
 			
 			if (experience > expBrackets[currentLvl]) {experience -= expBrackets[currentLvl]; currentLvl++;}
 			
-			element("counter", "innerHTML", "Songs composed: " + compositions.toString());
-			element("exp", "innerHTML", "Composing level: " + currentLvl.toString() + " (" + experience.toFixed(1) + "/" + expBrackets[currentLvl].toString() + " exp to next level)");
+			updateValues();
 			clearInterval(id);
 			
 			if (compositions >= 10) { element("create","rm_a","disabled"); }
@@ -76,13 +79,30 @@ function createAlbum() {
 	
 	//if albums table doesn't show, display it
 	if(!tblBool){
-		document.body.appendChild(tbl);
+		document.getElementById("col1").appendChild(tbl);
 		
 		tblBool = true;
 	}
 	var albumRow = tbl.insertRow();
 	var titleCell = albumRow.insertCell(0);
 	var dateCell = albumRow.insertCell(1);
-	titleCell.innerHTML = albumName[0];
+	titleCell.setAttribute("class", "datarows");
+	dateCell.setAttribute("class", "datarows");
+	titleCell.innerHTML = albumsList[0];
 	dateCell.innerHTML = datesList[0];
+}
+
+function albumPrepare(){
+	var albumInput = document.getElementById("col2");
+	
+	albumData_names.push();
+	albumData_lengths.push();
+}
+
+function updateValues(){
+	var expElement = document.getElementById("exp");
+	var composedElement = document.getElementById("counter");
+	expElement.innerHTML = "Composing level: " + currentLvl.toString() + " (" + 
+	experience.toFixed(1) + "/" + expBrackets[currentLvl].toString() + " exp to next level)";
+	composedElement.innerHTML = "Songs composed: " + compositions.toString();
 }
