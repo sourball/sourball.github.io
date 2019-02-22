@@ -47,21 +47,23 @@ function element(id, action, data, subdata) {
 			break;
 	}
 }
-
 function poseFunction() {
 	element("buttonson", "set_a", "disabled", "");
-	var cDown = game.compTime;
+	var cDown;
 	if (game.debug == true)	{
-		cDown = 1;
+		cDown = new Date().getTime() + 1000;
+	}else{
+		cDown = new Date().getTime() + (game.compTime*1000);
 	}
-	element("buttonson", "innerHTML", cDown);
-	var id = setInterval(function(){countTry();}, 1000);
-	function countTry() {					
-		if (cDown <= 0){
+	element("buttonson", "innerHTML", ((cDown - new Date().getTime())/1000).toFixed(1));
+	var id = setInterval(function(){countTry();}, 100);
+	function countTry() {
+		d = new Date()
+		if (cDown - new Date().getTime() <= 0){
 			element("buttonson", "innerHTML", "Click me");
 			element("buttonson", "rm_a", "disabled");
 			game.compositions += 1;
-			game.experience += (9 + ((Math.floor(Math.random() * Math.floor(50))-25)/10));
+			game.experience += (9 + ((Math.floor(Math.random() * 50)-25)/10));
 			
 			if (game.experience > game.expBrackets[game.currentLvl]) {game.experience -= game.expBrackets[game.currentLvl]; game.currentLvl++;}
 			
@@ -71,11 +73,9 @@ function poseFunction() {
 			if (game.compositions >= 10) { element("create","rm_a","disabled"); }
 		} 
 		else{
-			cDown += -1;
-			document.getElementById("buttonson").innerHTML = cDown; 
+			document.getElementById("buttonson").innerHTML = ((cDown - new Date().getTime())/1000).toFixed(1);
 		}
 	}
-	
 }
 function createAlbum() {
 	game.albumName = prompt("Album name: ");
