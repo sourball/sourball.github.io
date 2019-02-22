@@ -6,6 +6,7 @@ var game = {
 	experience: 0,
 	expBrackets: [100, 150, 225, 450, 600],
 	currentLvl: 0,
+	currentAlbum: 0,
 	albumsList: [],
 	datesList: [],
 	tblBool: false,
@@ -93,8 +94,9 @@ function createAlbum() {
 	var dateCell = albumRow.insertCell(1);
 	titleCell.setAttribute("class", "datarows");
 	dateCell.setAttribute("class", "datarows");
-	titleCell.innerHTML = game.albumsList[0];
-	dateCell.innerHTML = game.datesList[0];
+	titleCell.innerHTML = game.albumsList[game.currentAlbum];
+	dateCell.innerHTML = game.datesList[game.currentAlbum];
+	game.currentAlbum += 1;
 }
 
 function albumPrepare(){
@@ -110,12 +112,27 @@ function updateValues(){
 	expElement.innerHTML = "Composing level: " + game.currentLvl.toString() + " (" + 
 	game.experience.toFixed(1) + "/" + game.expBrackets[game.currentLvl].toString() + " exp to next level)";
 	composedElement.innerHTML = "Songs composed: " + game.compositions.toString();
+	
 	if(game.debug == false){
 		document.getElementById("countdown").innerHTML = "Click the button to compose a song! (10 second cooldown)";
 	}else{
 		document.getElementById("countdown").innerHTML = "Click the button to compose a song! (1 second cooldown [DEBUG])";
 	}
+	
+	if(game.compositions >= 10){element("create","rm_a","disabled");}
 }
+
+function rebuildTable(){
+	var albumRow = tbl.insertRow();
+	var titleCell = albumRow.insertCell(0);
+	var dateCell = albumRow.insertCell(1);
+	titleCell.setAttribute("class", "datarows");
+	dateCell.setAttribute("class", "datarows");
+	titleCell.innerHTML = game.albumsList[game.currentAlbum];
+	dateCell.innerHTML = game.datesList[game.currentAlbum];
+	game.currentAlbum += 1;
+}
+
 function save() {
 	localStorage.setItem("Save", JSON.stringify(game));
 	var saveButton = document.getElementById("saveBtn");
@@ -123,9 +140,13 @@ function save() {
 	saveButton.setAttribute("disabled","");
 	setTimeout(function(){saveButton.innerHTML = "Save"; saveButton.removeAttribute("disabled");}, 1000);
 }
+
 function load() {
 	game = JSON.parse(localStorage.getItem('Save'));
 	updateValues();
+	game.currentAlbum = 0;
+	game.albumsList.forEach(rebuildTable);
+	if(game.tblBool){document.getElementById("col1").appendChild(tbl);};
 	
 	var loadButton = document.getElementById("loadBtn");
 	loadButton.innerHTML = "Loaded!";
