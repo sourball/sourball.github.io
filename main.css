@@ -1,5 +1,6 @@
 body {
 	font-family: 'Roboto';font-size: 16px;
+	padding-left: 10px;
 }
 
 table {
@@ -23,6 +24,21 @@ table {
 }
 
 .column{
-	float: left;
+	height: 100%;
 	width: 50%;
+	position: fixed;
+	z-index: 1;
+	top: 100;
+	overflow-x: hidden;
+	padding: 20px;
+	padding-top: 5px;
+}
+
+#col1{
+	left: 0;
+}
+
+#col2{
+	right: 0;
+	background-color: gray;
 }
