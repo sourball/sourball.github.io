@@ -11,7 +11,7 @@ var game = {
 	tblBool: false,
 	albumData_lengths: [],
 	albumData_names: [],
-	debug: fales
+	debug: false
 }
 
 //declare albums table
