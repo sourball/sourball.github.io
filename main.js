@@ -110,6 +110,11 @@ function updateValues(){
 	expElement.innerHTML = "Composing level: " + game.currentLvl.toString() + " (" + 
 	game.experience.toFixed(1) + "/" + game.expBrackets[game.currentLvl].toString() + " exp to next level)";
 	composedElement.innerHTML = "Songs composed: " + game.compositions.toString();
+	if(game.debug == false){
+		document.getElementById("countdown").innerHTML = "Click the button to compose a song! (10 second cooldown)";
+	}else{
+		document.getElementById("countdown").innerHTML = "Click the button to compose a song! (1 second cooldown [DEBUG])";
+	}
 }
 function save() {
 	localStorage.setItem("Save", JSON.stringify(game));
