@@ -1,14 +1,18 @@
-var compTime = 10;
-var composing = false;
-var d = new Date();
-var seconds = d.getSeconds();
-var compositions = 0;
-var experience = 0;
-var expBrackets = [100, 150, 225, 450, 600];
-var currentLvl = 0;
-var albumsList = [];
-var datesList = [];
-var tblBool = false;
+var game = {
+	compTime: 10,
+	composing: false,
+	date: new Date(),
+	compositions: 0,
+	experience: 0,
+	expBrackets: [100, 150, 225, 450, 600],
+	currentLvl: 0,
+	albumsList: [],
+	datesList: [],
+	tblBool: false,
+	albumData_lengths: [],
+	albumData_names: [],
+	debug: false
+}
 
 //declare albums table
 var tbl = document.createElement("TABLE");
@@ -25,6 +29,8 @@ var cell2 = tblRow.insertCell(1);
 cell2.innerHTML = "<b>Release date</b>";
 cell2.setAttribute("class", "initrows");
 tblRow.setAttribute("class", "init");
+
+var upDating = setInterval(function(){updateValues();}, 4000);
 
 function element(id, action, data, subdata) {
 	switch(action){
@@ -44,23 +50,25 @@ function element(id, action, data, subdata) {
 
 function poseFunction() {
 	element("buttonson", "set_a", "disabled", "");
-	var cDown = compTime;
+	var cDown = game.compTime;
+	if (game.debug == true)	{
+		cDown = 1;
+	}
 	element("buttonson", "innerHTML", cDown);
 	var id = setInterval(function(){countTry();}, 1000);
 	function countTry() {					
-		if (cDown == 0){
+		if (cDown <= 0){
 			element("buttonson", "innerHTML", "Click me");
 			element("buttonson", "rm_a", "disabled");
-			compositions += 1;
-			experience += (9 + ((Math.floor(Math.random() * Math.floor(50))-25)/10));
+			game.compositions += 1;
+			game.experience += (9 + ((Math.floor(Math.random() * Math.floor(50))-25)/10));
 			
-			if (experience > expBrackets[currentLvl]) {experience -= expBrackets[currentLvl]; currentLvl++;}
+			if (game.experience > game.expBrackets[game.currentLvl]) {game.experience -= game.expBrackets[game.currentLvl]; game.currentLvl++;}
 			
-			element("counter", "innerHTML", "Songs composed: " + compositions.toString());
-			element("exp", "innerHTML", "Composing level: " + currentLvl.toString() + " (" + experience.toFixed(1) + "/" + expBrackets[currentLvl].toString() + " exp to next level)");
+			updateValues();
 			clearInterval(id);
 			
-			if (compositions >= 10) { element("create","rm_a","disabled"); }
+			if (game.compositions >= 10) { element("create","rm_a","disabled"); }
 		} 
 		else{
 			cDown += -1;
@@ -70,19 +78,42 @@ function poseFunction() {
 	
 }
 function createAlbum() {
-	albumName = prompt("Album name: ");
-	albumsList.push(albumName);
-	datesList.push("not yet released");
+	game.albumName = prompt("Album name: ");
+	game.albumsList.push(game.albumName);
+	game.datesList.push("not yet released");
 	
 	//if albums table doesn't show, display it
-	if(!tblBool){
-		document.body.appendChild(tbl);
+	if(!game.tblBool){
+		document.getElementById("col1").appendChild(tbl);
 		
-		tblBool = true;
+		game.tblBool = true;
 	}
 	var albumRow = tbl.insertRow();
 	var titleCell = albumRow.insertCell(0);
 	var dateCell = albumRow.insertCell(1);
-	titleCell.innerHTML = albumName[0];
+	titleCell.setAttribute("class", "datarows");
+	dateCell.setAttribute("class", "datarows");
+	titleCell.innerHTML = albumsList[0];
 	dateCell.innerHTML = datesList[0];
+}
+
+function albumPrepare(){
+	var albumInput = document.getElementById("col2");
+	
+	albumData_names.push();
+	albumData_lengths.push();
+}
+
+function updateValues(){
+	var expElement = document.getElementById("exp");
+	var composedElement = document.getElementById("counter");
+	expElement.innerHTML = "Composing level: " + game.currentLvl.toString() + " (" + 
+	game.experience.toFixed(1) + "/" + game.expBrackets[game.currentLvl].toString() + " exp to next level)";
+	composedElement.innerHTML = "Songs composed: " + game.compositions.toString();
+}
+function save() {
+	localStorage.setItem("Save", JSON.stringify(game));
+}
+function load() {
+	game = JSON.parse(localStorage.getItem('Save'));
 }
