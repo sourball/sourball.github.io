@@ -86,6 +86,8 @@ function createAlbum() {
 	var albumRow = tbl.insertRow();
 	var titleCell = albumRow.insertCell(0);
 	var dateCell = albumRow.insertCell(1);
+	titleCell.setAttribute("class", "datarows");
+	dateCell.setAttribute("class", "datarows");
 	titleCell.innerHTML = albumsList[0];
 	dateCell.innerHTML = datesList[0];
 }
