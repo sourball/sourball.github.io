@@ -97,6 +97,9 @@ function createAlbum() {
 	titleCell.innerHTML = game.albumsList[game.currentAlbum];
 	dateCell.innerHTML = game.datesList[game.currentAlbum];
 	game.currentAlbum += 1;
+	game.compositions -= 10;
+	if(game.compositions < 10){element("create","set_a","disabled",""); element("create","innerHTML","Once you've got 10 songs, you may create an album");}
+	updateValues();
 }
 
 function albumPrepare(){
@@ -119,7 +122,7 @@ function updateValues(){
 		document.getElementById("countdown").innerHTML = "Click the button to compose a song! (1 second cooldown [DEBUG])";
 	}
 	
-	if(game.compositions >= 10){element("create","rm_a","disabled");}
+	if(game.compositions >= 10){element("create","rm_a","disabled"); element("create","innerHTML","Create album");}
 }
 
 function rebuildTable(){
