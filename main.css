@@ -23,6 +23,11 @@ table {
 	text-align: left;
 }
 
+.container {
+	display: flex;
+	flex-direction: row;
+}
+
 .column{
 	height: 100%;
 	width: 50%;
@@ -30,7 +35,7 @@ table {
 	z-index: 1;
 	top: 100;
 	overflow-x: hidden;
-	padding: 20px;
+	margin: 20px;
 	padding-top: 5px;
 }
 
