@@ -113,7 +113,17 @@ function updateValues(){
 }
 function save() {
 	localStorage.setItem("Save", JSON.stringify(game));
+	var saveButton = document.getElementById("saveBtn");
+	saveButton.innerHTML = "Saved!";
+	saveButton.setAttribute("disabled","");
+	setTimeout(function(){saveButton.innerHTML = "Save"; saveButton.removeAttribute("disabled");}, 1000);
 }
 function load() {
 	game = JSON.parse(localStorage.getItem('Save'));
+	updateValues();
+	
+	var loadButton = document.getElementById("loadBtn");
+	loadButton.innerHTML = "Loaded!";
+	loadButton.setAttribute("disabled","");
+	setTimeout(function(){loadButton.innerHTML = "Load"; loadButton.removeAttribute("disabled");}, 1000);
 }
