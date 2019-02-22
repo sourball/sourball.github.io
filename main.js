@@ -83,10 +83,10 @@ function createAlbum() {
 	game.datesList.push("not yet released");
 	
 	//if albums table doesn't show, display it
-	if(!tblBool){
+	if(!game.tblBool){
 		document.getElementById("col1").appendChild(tbl);
 		
-		tblBool = true;
+		game.tblBool = true;
 	}
 	var albumRow = tbl.insertRow();
 	var titleCell = albumRow.insertCell(0);
