@@ -93,8 +93,8 @@ function createAlbum() {
 	var dateCell = albumRow.insertCell(1);
 	titleCell.setAttribute("class", "datarows");
 	dateCell.setAttribute("class", "datarows");
-	titleCell.innerHTML = albumsList[0];
-	dateCell.innerHTML = datesList[0];
+	titleCell.innerHTML = game.albumsList[0];
+	dateCell.innerHTML = game.datesList[0];
 }
 
 function albumPrepare(){
