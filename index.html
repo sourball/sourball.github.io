@@ -37,6 +37,8 @@
 			var expBrackets = [100, 150, 225, 450, 600];
 			var currentLvl = 0;
 			var albumsList = [];
+			var datesList = [];
+			var
 			var tblBool = false;
 			
 			//declare albums table
@@ -73,7 +75,7 @@
 			
 			function poseFunction() {
 				element("buttonson", "set_a", "disabled", "");
-				var cDown = 10;
+				var cDown = compTime;
 				element("buttonson", "innerHTML", cDown);
 				var id = setInterval(function(){countTry();}, 1000);
 				function countTry() {					
@@ -101,6 +103,7 @@
 			function createAlbum() {
 				albumName = prompt("Album name: ");
 				albumsList.push(albumName);
+				datesList.push("not yet released");
 				
 				//if albums table doesn't show, display it
 				if(!tblBool){
@@ -111,6 +114,8 @@
 				var albumRow = tbl.insertRow();
 				var titleCell = albumRow.insertCell(0);
 				var dateCell = albumRow.insertCell(1);
+				titleCell.innerHTML = albumName[];
+				dateCell.innerHTML = datesList[];
 			}
 		</script>
 		<p id="countdown">Click the button to compose a song! (10 second cooldown)</p>
