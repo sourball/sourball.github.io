@@ -1,16 +1,21 @@
-var compTime = 10;
-var composing = false;
-var d = new Date();
-var seconds = d.getSeconds();
-var compositions = 0;
-var experience = 0;
-var expBrackets = [100, 150, 225, 450, 600];
-var currentLvl = 0;
-var albumsList = [];
-var datesList = [];
-var tblBool = false;
-var albumData_lengths = [];
-var albumData_names = [];
+var game = {
+	compTime: 10,
+	composing: false,
+	date: new Date(),
+	compositions: 0,
+	experience: 0,
+	expBrackets: [100, 150, 225, 450, 600],
+	currentLvl: 0,
+	currentAlbum: 0,
+	albumsList: [],
+	datesList: [],
+	tblBool: false,
+	albumData_lengths: [],
+	albumData_names: [],
+	debug: false
+}
+
+var isTableShowing = false;
 
 //declare albums table
 var tbl = document.createElement("TABLE");
@@ -45,51 +50,62 @@ function element(id, action, data, subdata) {
 			break;
 	}
 }
-
 function poseFunction() {
 	element("buttonson", "set_a", "disabled", "");
-	var cDown = compTime;
-	element("buttonson", "innerHTML", cDown);
-	var id = setInterval(function(){countTry();}, 1000);
-	function countTry() {					
-		if (cDown == 0){
+	var cDown;
+	if (game.debug == true)	{
+		cDown = new Date().getTime() + 1000;
+	}else{
+		cDown = new Date().getTime() + (game.compTime*1000);
+	}
+	element("buttonson", "innerHTML", ((cDown - new Date().getTime())/1000).toFixed(1));
+	var id = setInterval(function(){countTry();}, 100);
+	function countTry() {
+		d = new Date()
+		if (cDown - new Date().getTime() <= 0){
 			element("buttonson", "innerHTML", "Click me");
 			element("buttonson", "rm_a", "disabled");
-			compositions += 1;
-			experience += (9 + ((Math.floor(Math.random() * Math.floor(50))-25)/10));
+			game.compositions += 1;
+			game.experience += (9 + ((Math.floor(Math.random() * 50)-25)/10));
 			
-			if (experience > expBrackets[currentLvl]) {experience -= expBrackets[currentLvl]; currentLvl++;}
+			if (game.experience > game.expBrackets[game.currentLvl]) {game.experience -= game.expBrackets[game.currentLvl]; game.currentLvl++;}
 			
 			updateValues();
 			clearInterval(id);
 			
-			if (compositions >= 10) { element("create","rm_a","disabled"); }
+			if (game.compositions >= 10) { element("create","rm_a","disabled"); }
 		} 
 		else{
-			cDown += -1;
-			document.getElementById("buttonson").innerHTML = cDown; 
+			document.getElementById("buttonson").innerHTML = ((cDown - new Date().getTime())/1000).toFixed(1);
 		}
 	}
-	
 }
 function createAlbum() {
-	albumName = prompt("Album name: ");
-	albumsList.push(albumName);
-	datesList.push("not yet released");
-	
-	//if albums table doesn't show, display it
-	if(!tblBool){
-		document.getElementById("col1").appendChild(tbl);
+	if(game.compositions >= 10){
+		game.albumName = prompt("Album name: ");
+		game.albumsList.push(game.albumName);
+		game.datesList.push("not yet released");
 		
-		tblBool = true;
+		//if albums table doesn't show, display it
+		if(!game.tblBool){
+			document.getElementById("col1").appendChild(tbl);
+			
+			game.tblBool = true;
+		}
+		var albumRow = tbl.insertRow();
+		var titleCell = albumRow.insertCell(0);
+		var dateCell = albumRow.insertCell(1);
+		titleCell.setAttribute("class", "datarows");
+		dateCell.setAttribute("class", "datarows");
+		titleCell.innerHTML = game.albumsList[game.currentAlbum];
+		dateCell.innerHTML = game.datesList[game.currentAlbum];
+		game.currentAlbum += 1;
+		game.compositions -= 10;
+		if(game.compositions < 10){element("create","set_a","disabled",""); element("create","innerHTML","Once you've got 10 songs, you may create an album");}
+		updateValues();
+	}else{
+		console.log("Error, not enuf songs!");
 	}
-	var albumRow = tbl.insertRow();
-	var titleCell = albumRow.insertCell(0);
-	var dateCell = albumRow.insertCell(1);
-	titleCell.setAttribute("class", "datarows");
-	dateCell.setAttribute("class", "datarows");
-	titleCell.innerHTML = albumsList[0];
-	dateCell.innerHTML = datesList[0];
 }
 
 function albumPrepare(){
@@ -102,7 +118,70 @@ function albumPrepare(){
 function updateValues(){
 	var expElement = document.getElementById("exp");
 	var composedElement = document.getElementById("counter");
-	expElement.innerHTML = "Composing level: " + currentLvl.toString() + " (" + 
-	experience.toFixed(1) + "/" + expBrackets[currentLvl].toString() + " exp to next level)";
-	composedElement.innerHTML = "Songs composed: " + compositions.toString();
+	expElement.innerHTML = "Composing level: " + game.currentLvl.toString() + " (" + 
+	game.experience.toFixed(1) + "/" + game.expBrackets[game.currentLvl].toString() + " exp to next level)";
+	composedElement.innerHTML = "Songs composed: " + game.compositions.toString();
+	
+	if(game.debug == false){
+		document.getElementById("countdown").innerHTML = "Click the button to compose a song! (10 second cooldown)";
+	}else{
+		document.getElementById("countdown").innerHTML = "Click the button to compose a song! (1 second cooldown [DEBUG])";
+	}
+	
+	if(game.compositions >= 10){element("create","rm_a","disabled"); element("create","innerHTML","Create album");}
+}
+
+function rebuildTable(){
+	var albumRow = tbl.insertRow();
+	var titleCell = albumRow.insertCell(0);
+	var dateCell = albumRow.insertCell(1);
+	titleCell.setAttribute("class", "datarows");
+	dateCell.setAttribute("class", "datarows");
+	titleCell.innerHTML = game.albumsList[game.currentAlbum];
+	dateCell.innerHTML = game.datesList[game.currentAlbum];
+	game.currentAlbum += 1;
+	isTableShowing = true;
+}
+
+function save() {
+	localStorage.setItem("Save", JSON.stringify(game));
+	var saveButton = document.getElementById("saveBtn");
+	saveButton.innerHTML = "Saved!";
+	saveButton.setAttribute("disabled","");
+	setTimeout(function(){saveButton.innerHTML = "Save"; saveButton.removeAttribute("disabled");}, 1000);
+}
+
+function load() {
+	game = JSON.parse(localStorage.getItem('Save'));
+	updateValues();
+	game.currentAlbum = 0;
+	if(isTableShowing == false){game.albumsList.forEach(rebuildTable);}
+	if(game.tblBool){document.getElementById("col1").appendChild(tbl);};
+	
+	var loadButton = document.getElementById("loadBtn");
+	loadButton.innerHTML = "Loaded!";
+	loadButton.setAttribute("disabled","");
+	setTimeout(function(){loadButton.innerHTML = "Load"; loadButton.removeAttribute("disabled");}, 1000);
+}
+
+function reset(){
+	game = {
+		compTime: 10,
+		composing: false,
+		date: new Date(),
+		compositions: 0,
+		experience: 0,
+		expBrackets: [100, 150, 225, 450, 600],
+		currentLvl: 0,
+		currentAlbum: 0,
+		albumsList: [],
+		datesList: [],
+		tblBool: false,
+		albumData_lengths: [],
+		albumData_names: [],
+		debug: false
+	}
+	updateValues();
+	if(isTableShowing == true){document.getElementById("col1").removeChild(tbl);}
+	game.tblBool = false;
 }
