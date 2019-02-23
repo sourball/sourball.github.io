@@ -3,6 +3,7 @@ var game = {
 	composing: false,
 	date: new Date(),
 	compositions: 0,
+	compFinished: null,
 	experience: 0,
 	expBrackets: [100, 150, 225, 450, 600],
 	currentLvl: 0,
@@ -52,17 +53,17 @@ function element(id, action, data, subdata) {
 }
 function poseFunction() {
 	element("buttonson", "set_a", "disabled", "");
-	var cDown;
 	if (game.debug == true)	{
-		cDown = new Date().getTime() + 1000;
+		game.compFinished = new Date().getTime() + 1000;
 	}else{
-		cDown = new Date().getTime() + (game.compTime*1000);
+		game.compFinished = new Date().getTime() + (game.compTime*1000);
 	}
-	element("buttonson", "innerHTML", ((cDown - new Date().getTime())/1000).toFixed(1));
+	element("buttonson", "innerHTML", ((game.compFinished - new Date().getTime())/1000).toFixed(1));
 	var id = setInterval(function(){countTry();}, 100);
 	function countTry() {
 		d = new Date()
-		if (cDown - new Date().getTime() <= 0){
+		if (game.compFinished - d.getTime() <= 0){
+			game.compFinished = null;
 			element("buttonson", "innerHTML", "Click me");
 			element("buttonson", "rm_a", "disabled");
 			game.compositions += 1;
@@ -76,7 +77,7 @@ function poseFunction() {
 			if (game.compositions >= 10) { element("create","rm_a","disabled"); }
 		} 
 		else{
-			document.getElementById("buttonson").innerHTML = ((cDown - new Date().getTime())/1000).toFixed(1);
+			document.getElementById("buttonson").innerHTML = ((game.compFinished - d.getTime())/1000).toFixed(1);
 		}
 	}
 }
@@ -104,7 +105,7 @@ function createAlbum() {
 		if(game.compositions < 10){element("create","set_a","disabled",""); element("create","innerHTML","Once you've got 10 songs, you may create an album");}
 		updateValues();
 	}else{
-		console.log("Error, not enuf songs!");
+		console.log("Error, not enough songs!");
 	}
 }
 
