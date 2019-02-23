@@ -6,7 +6,6 @@ function update(){
 	updateValues()
 }
 
-
 function updateValues(){
 	var expElement = document.getElementById("exp");
 	var composedElement = document.getElementById("counter");
