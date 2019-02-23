@@ -196,7 +196,7 @@ function reset(){
 
 function talentAllocation(talent){
 	if(game.talentPoints >= 1) {
-		game.talentPoints--; game.talents.talent+= 0.2
+		game.talentPoints--; game.talents.eval(talent)+= 0.2;
 		}else{
 			console.log("Error, not enuf talent points!");
 		}
