@@ -1,9 +1,11 @@
+var faviconState = 1
 setInterval(function(){update();}, 100);
 function update(){
 	if(game.compFinished){
-		countTry()
+		countTry();
 	}
-	updateValues()
+	updateValues();
+	favIcon();
 }
 
 function updateValues(){
@@ -24,4 +26,10 @@ function updateValues(){
 
 function timeTo(nextFinish){
 	return ((nextFinish - new Date().getTime())/1000).toFixed(1)
+}
+
+function favIcon(){
+	faviconState++;
+	if(faviconState >= 12){faviconState = 1}
+	document.getElementById("favicon").setAttribute("href", "favicons/"+faviconState+".png");
 }
