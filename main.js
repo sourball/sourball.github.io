@@ -103,6 +103,8 @@ function createAlbum() {
 		game.compositions -= 10;
 		if(game.compositions < 10){element("create","set_a","disabled",""); element("create","innerHTML","Once you've got 10 songs, you may create an album");}
 		updateValues();
+	}else{
+		console.log("Error, not enuf songs!");
 	}
 }
 
