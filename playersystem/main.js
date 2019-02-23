@@ -13,7 +13,7 @@ var game = {
 		charisma: 1,
 		learnability: 1,
 		creativity: 1
-	}
+	},
 	currentAlbum: 0,
 	albumsList: [],
 	datesList: [],
