@@ -158,9 +158,9 @@ function albumPrepare(){
 		numberCell.setAttribute("class", "datarows");
 		nameCell.setAttribute("class", "datarows");
 		lengthCell.setAttribute("class", "datarows");
-		numberCell.innerHTML = i;
-		nameCell.innerHTML = game.albumData_names[i];
-		lengthCell.innerHTML = game.albumData_lengths[i];
+		numberCell.innerHTML = i + 1;
+		nameCell.innerHTML = game.albumData_names[i + ((game.currentAlbum - 1) * 10)];
+		lengthCell.innerHTML = game.albumData_lengths[i + ((game.currentAlbum - 1) * 10)];
 	}
 	
 	tbl2Caption.innerHTML = "Album up for release: " + game.albumsList[game.currentAlbum - 1];
