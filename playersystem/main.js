@@ -3,17 +3,10 @@ var game = {
 	composing: false,
 	date: new Date(),
 	compositions: 0,
+	compFinished: null,
 	experience: 0,
 	expBrackets: [100, 150, 225, 450, 600],
 	currentLvl: 0,
-	talentPoints: 0,
-	talents: {
-		speed: 1,
-		craftsmanship: 1,
-		charisma: 1,
-		learnability: 1,
-		creativity: 1
-	},
 	currentAlbum: 0,
 	albumsList: [],
 	datesList: [],
@@ -60,23 +53,25 @@ function element(id, action, data, subdata) {
 }
 function poseFunction() {
 	element("buttonson", "set_a", "disabled", "");
-	var cDown;
-	if (game.debug == true)	{
-		cDown = new Date().getTime() + 1000;
-	}else{
-		cDown = new Date().getTime() + (game.compTime*1000);
+	if(!game.compFinished){
+		if (game.debug == true)	{
+			game.compFinished = new Date().getTime() + 1000;
+		}else{
+			game.compFinished = new Date().getTime() + (game.compTime*1000);
+		}
 	}
-	element("buttonson", "innerHTML", ((cDown - new Date().getTime())/1000).toFixed(1));
+	element("buttonson", "innerHTML", ((game.compFinished - new Date().getTime())/1000).toFixed(1));
 	var id = setInterval(function(){countTry();}, 100);
 	function countTry() {
 		d = new Date()
-		if (cDown - new Date().getTime() <= 0){
+		if (game.compFinished - d.getTime() <= 0){
+			game.compFinished = null;
 			element("buttonson", "innerHTML", "Click me");
 			element("buttonson", "rm_a", "disabled");
 			game.compositions += 1;
 			game.experience += (9 + ((Math.floor(Math.random() * 50)-25)/10));
 			
-			if (game.experience > game.expBrackets[game.currentLvl]) {game.experience -= game.expBrackets[game.currentLvl]; game.currentLvl++; game.talentpoints+=5}
+			if (game.experience > game.expBrackets[game.currentLvl]) {game.experience -= game.expBrackets[game.currentLvl]; game.currentLvl++;}
 			
 			updateValues();
 			clearInterval(id);
@@ -84,7 +79,7 @@ function poseFunction() {
 			if (game.compositions >= 10) { element("create","rm_a","disabled"); }
 		} 
 		else{
-			document.getElementById("buttonson").innerHTML = ((cDown - new Date().getTime())/1000).toFixed(1);
+			document.getElementById("buttonson").innerHTML = ((game.compFinished - d.getTime())/1000).toFixed(1);
 		}
 	}
 }
@@ -112,7 +107,7 @@ function createAlbum() {
 		if(game.compositions < 10){element("create","set_a","disabled",""); element("create","innerHTML","Once you've got 10 songs, you may create an album");}
 		updateValues();
 	}else{
-		console.log("Error, not enuf songs!");
+		console.log("Error, not enough songs!");
 	}
 }
 
@@ -162,6 +157,9 @@ function save() {
 function load() {
 	game = JSON.parse(localStorage.getItem('Save'));
 	updateValues();
+	if(game.compFinished){
+		poseFunction();
+	}
 	game.currentAlbum = 0;
 	if(isTableShowing == false){game.albumsList.forEach(rebuildTable);}
 	if(game.tblBool){document.getElementById("col1").appendChild(tbl);};
@@ -193,12 +191,3 @@ function reset(){
 	if(isTableShowing == true){document.getElementById("col1").removeChild(tbl);}
 	game.tblBool = false;
 }
-
-function talentAllocation(talent){
-	if(game.talentPoints >= 1) {
-		game.talentPoints--; game.talents.eval(talent)+= 0.2;
-		}else{
-			console.log("Error, not enuf talent points!");
-		}
-}
-	
