@@ -53,10 +53,12 @@ function element(id, action, data, subdata) {
 }
 function poseFunction() {
 	element("buttonson", "set_a", "disabled", "");
-	if (game.debug == true)	{
-		game.compFinished = new Date().getTime() + 1000;
-	}else{
-		game.compFinished = new Date().getTime() + (game.compTime*1000);
+	if(!game.compFinished){
+		if (game.debug == true)	{
+			game.compFinished = new Date().getTime() + 1000;
+		}else{
+			game.compFinished = new Date().getTime() + (game.compTime*1000);
+		}
 	}
 	element("buttonson", "innerHTML", ((game.compFinished - new Date().getTime())/1000).toFixed(1));
 	var id = setInterval(function(){countTry();}, 100);
@@ -155,6 +157,9 @@ function save() {
 function load() {
 	game = JSON.parse(localStorage.getItem('Save'));
 	updateValues();
+	if(game.compFinished){
+		poseFunction();
+	}
 	game.currentAlbum = 0;
 	if(isTableShowing == false){game.albumsList.forEach(rebuildTable);}
 	if(game.tblBool){document.getElementById("col1").appendChild(tbl);};
