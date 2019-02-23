@@ -12,7 +12,9 @@ var game = {
 	tblBool: false,
 	albumData_lengths: [],
 	albumData_names: [],
-	debug: false
+	debug: false,
+	songNames: [],
+	songLengths: []
 }
 
 var isTableShowing = false;
@@ -33,7 +35,32 @@ cell2.innerHTML = "<b>Release date</b>";
 cell2.setAttribute("class", "initrows");
 tblRow.setAttribute("class", "init");
 
+//declare album release table
+var tbl2 = document.createElement("TABLE");
+tbl.setAttribute("id", "albumForRelease");
+tbl.setAttribute("border", "1")
+var tblCaption = tbl.createCaption();
+tblCaption.innerHTML = "Album up for release: ";
+tblCaption.setAttribute("class", "leftalign");
+var tblRow = tbl.insertRow();
+var cell1 = tblRow.insertCell(0);
+cell2.innerHTML = "<b>#</b>";
+cell2.setAttribute("class", "initrows");
+var cell2 = tblRow.insertCell(1);
+cell1.innerHTML = "<b>Song names</b>";
+cell1.setAttribute("class", "initrows");
+var cell3 = tblRow.insertCell(2);
+cell2.innerHTML = "<b>Song lengths</b>";
+cell2.setAttribute("class", "initrows");
+tblRow.setAttribute("class", "init");
+
 var upDating = setInterval(function(){updateValues();}, 4000);
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 function element(id, action, data, subdata) {
 	switch(action){
@@ -67,6 +94,11 @@ function poseFunction() {
 			element("buttonson", "rm_a", "disabled");
 			game.compositions += 1;
 			game.experience += (9 + ((Math.floor(Math.random() * 50)-25)/10));
+			game.songLengths.push(getRandomInt(90, 180));
+			$.get('songnames.txt', function(txtFile){
+				var nameFile = txtFile.split("\n");
+				game.songNames.push(nameFile[compositions - 1]);
+			});
 			
 			if (game.experience > game.expBrackets[game.currentLvl]) {game.experience -= game.expBrackets[game.currentLvl]; game.currentLvl++;}
 			
@@ -108,11 +140,30 @@ function createAlbum() {
 	}
 }
 
+//Prepare album for release, song names, lengths etc.
 function albumPrepare(){
 	var albumInput = document.getElementById("col2");
 	
+	for(i=0; i < 10; i++){
+		game.albumData_lengths.push(game.songLengths[i]);
+	}
 	albumData_names.push();
-	albumData_lengths.push();
+	
+	
+	for(i=0; i<10; i++){
+		var albumRRow = tbl2.insertRow();
+		var numberCell = albumRRow.insertCell(0);
+		var nameCell = albumRRow.insertCell(1);
+		var lengthCell = albumRRow.insertCell(2);
+		numberCell.setAttribute("class", "datarows");
+		nameCell.setAttribute("class", "datarows");
+		lengthCell.setAttribute("class", "datarows");
+		numberCell.innerHTML = i;
+		nameCell.innerHTML = game.albumData_lengths[i];
+		lengthCell.innerHTML = game.albumData_lengths[i];
+	}
+	
+	document.getElementById("col2").appendChild(tbl2);
 }
 
 function updateValues(){
@@ -179,7 +230,9 @@ function reset(){
 		tblBool: false,
 		albumData_lengths: [],
 		albumData_names: [],
-		debug: false
+		debug: false,
+		songNames: [],
+		songLengths: []
 	}
 	updateValues();
 	if(isTableShowing == true){document.getElementById("col1").removeChild(tbl);}
