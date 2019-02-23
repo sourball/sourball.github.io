@@ -81,27 +81,29 @@ function poseFunction() {
 	}
 }
 function createAlbum() {
-	game.albumName = prompt("Album name: ");
-	game.albumsList.push(game.albumName);
-	game.datesList.push("not yet released");
-	
-	//if albums table doesn't show, display it
-	if(!game.tblBool){
-		document.getElementById("col1").appendChild(tbl);
+	if(game.compositions >= 10){
+		game.albumName = prompt("Album name: ");
+		game.albumsList.push(game.albumName);
+		game.datesList.push("not yet released");
 		
-		game.tblBool = true;
+		//if albums table doesn't show, display it
+		if(!game.tblBool){
+			document.getElementById("col1").appendChild(tbl);
+			
+			game.tblBool = true;
+		}
+		var albumRow = tbl.insertRow();
+		var titleCell = albumRow.insertCell(0);
+		var dateCell = albumRow.insertCell(1);
+		titleCell.setAttribute("class", "datarows");
+		dateCell.setAttribute("class", "datarows");
+		titleCell.innerHTML = game.albumsList[game.currentAlbum];
+		dateCell.innerHTML = game.datesList[game.currentAlbum];
+		game.currentAlbum += 1;
+		game.compositions -= 10;
+		if(game.compositions < 10){element("create","set_a","disabled",""); element("create","innerHTML","Once you've got 10 songs, you may create an album");}
+		updateValues();
 	}
-	var albumRow = tbl.insertRow();
-	var titleCell = albumRow.insertCell(0);
-	var dateCell = albumRow.insertCell(1);
-	titleCell.setAttribute("class", "datarows");
-	dateCell.setAttribute("class", "datarows");
-	titleCell.innerHTML = game.albumsList[game.currentAlbum];
-	dateCell.innerHTML = game.datesList[game.currentAlbum];
-	game.currentAlbum += 1;
-	game.compositions -= 10;
-	if(game.compositions < 10){element("create","set_a","disabled",""); element("create","innerHTML","Once you've got 10 songs, you may create an album");}
-	updateValues();
 }
 
 function albumPrepare(){
