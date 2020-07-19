@@ -62,6 +62,9 @@
 				continue;
 			}
 			
+			original.crossOrigin = "Anonymous";
+			depthMap.crossOrigin = "Anonymous";
+			
 			// start parallaxing process...
 			
 			imageData[i]["LOAD_STATUS"] = 0; // LOAD_STATUS is used to track how many source images has been loaded so far
@@ -282,8 +285,8 @@
 				layers[l] = document.createElement("canvas"); // each layer is actually a canvas
 				
 				// some style and properties
-				layers[l].width = totalWidth;
-				layers[l].height = totalHeight;
+				layers[l].width = "100%";
+				layers[l].height = "auto";
 				layers[l].id = "javallax-viewport" + id + "-layer" + l;
 				layers[l].className = "javallax-layer";
 				layers[l].style.position = "absolute";
