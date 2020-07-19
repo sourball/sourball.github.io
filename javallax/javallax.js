@@ -69,8 +69,8 @@
 			imageData[i]["CONTAINER"].style.overflow = "hidden";
 			
 			var finalSize = getFinalContainerSize (i, hasOriginal(i) ? original : originalLeft);
-			//imageData[i]["CONTAINER"].style.width = finalSize.width + "px";
-			//imageData[i]["CONTAINER"].style.height = finalSize.height + "px";
+			imageData[i]["CONTAINER"].style.width = finalSize.width + "px";
+			imageData[i]["CONTAINER"].style.height = finalSize.height + "px";
 			
 			if (!isCanvasSupported()) {
 				// bad news, this browser can't manage <canvas> elements
@@ -575,8 +575,8 @@
 		var temp = document.createElement("canvas");
 		var tempContext = temp.getContext("2d");
 		
-		temp.width = imgElem.width;
-		temp.height = imgElem.height;
+		//temp.width = imgElem.width;
+		//temp.height = imgElem.height;
 		tempContext.drawImage(imgElem, 0, 0);
 		
 		return tempContext.getImageData(0, 0, temp.width, temp.height);
