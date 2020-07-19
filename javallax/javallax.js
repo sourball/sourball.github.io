@@ -285,8 +285,10 @@
 				layers[l] = document.createElement("canvas"); // each layer is actually a canvas
 				
 				// some style and properties
-				layers[l].width = "100%";
-				layers[l].height = "auto";
+				layers[l].width = totalWidth;
+				layers[l].height = totalHeight;
+				layers[l].maxWidth = "75%";
+				layers[l].maxHeight = "auto";
 				layers[l].id = "javallax-viewport" + id + "-layer" + l;
 				layers[l].className = "javallax-layer";
 				layers[l].style.position = "absolute";
