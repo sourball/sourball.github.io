@@ -575,8 +575,8 @@
 		var temp = document.createElement("canvas");
 		var tempContext = temp.getContext("2d");
 		
-		//temp.width = imgElem.width;
-		//temp.height = imgElem.height;
+		temp.width = imgElem.width;
+		temp.height = imgElem.height;
 		tempContext.drawImage(imgElem, 0, 0);
 		
 		return tempContext.getImageData(0, 0, temp.width, temp.height);
