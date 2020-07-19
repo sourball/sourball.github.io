@@ -69,8 +69,8 @@
 			imageData[i]["CONTAINER"].style.overflow = "hidden";
 			
 			var finalSize = getFinalContainerSize (i, hasOriginal(i) ? original : originalLeft);
-			imageData[i]["CONTAINER"].style.width = finalSize.width + "px";
-			imageData[i]["CONTAINER"].style.height = finalSize.height + "px";
+			//imageData[i]["CONTAINER"].style.width = finalSize.width + "px";
+			//imageData[i]["CONTAINER"].style.height = finalSize.height + "px";
 			
 			if (!isCanvasSupported()) {
 				// bad news, this browser can't manage <canvas> elements
