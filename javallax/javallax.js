@@ -27,7 +27,7 @@
 	
 	var imageData = []; // will contain all the informations about javallax-enabled images in the page
 	
-	var LAYERS_COUNT = 6; // how many layers will be generated?
+	var LAYERS_COUNT = 8; // how many layers will be generated?
 	var X_OFFSET = 10.0; // factor applied to the horizontal movement
 	var Y_OFFSET = 10; // factor applied to the vertical movement
 	
