@@ -48,6 +48,9 @@
 			var originalLeft = getElementsByClass("javallax-left", sourceDivs[i])[0];
 			var originalRight = getElementsByClass("javallax-right", sourceDivs[i])[0];
 			
+			original.crossOrigin = "Anonymous";
+			depthMap.crossOrigin = "Anonymous";
+			
 			if((typeof original == "object") && (typeof depthMap == "object")) {
 				// there are an image and its depth map
 				imageData[i]["MODE"] = ModeEnum.ORIG_DEPTH;
@@ -62,8 +65,6 @@
 				continue;
 			}
 			
-			original.crossOrigin = "Anonymous";
-			depthMap.crossOrigin = "Anonymous";
 			
 			// start parallaxing process...
 			
